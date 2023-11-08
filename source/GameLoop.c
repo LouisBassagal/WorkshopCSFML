@@ -1,14 +1,12 @@
 #include "../include/Workshop.h"
-#include <stdio.h>
 
 int game_loop(game_t *game)
 {
     while (sfRenderWindow_isOpen(game->game_window)) {
-        sfRenderWindow_clear(game->game_window, sfBlack);
+        // Clear the Window
         event_manager(game);
         player_manager(game->player);
-        sfRenderWindow_drawSprite(game->game_window, game->player->sprite, NULL);
-        sfRenderWindow_display(game->game_window);
+        // Draw sprite in the window and display it
     }
     destroy_resources(game);
     return 0;
