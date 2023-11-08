@@ -1,0 +1,1 @@
+CMakeLists.txt not found in /home/kane/CLionProjects/WorkshopCSFML Select CMakeLists.txt
