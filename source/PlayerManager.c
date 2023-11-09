@@ -3,11 +3,15 @@
 
 static void player_movement(player_t *player) {
     if (sfKeyboard_isKeyPressed(sfKeyLeft) == sfTrue) {
-        // Move the player to the left
+        player->is_moving = true;
+        sfSprite_move(player->sprite, (sfVector2f){-5, 0});
+        player->facing = LEFT;
         return;
     }
     if (sfKeyboard_isKeyPressed(sfKeyRight) == sfTrue) {
-        // Move the player to the right
+        player->is_moving = true;
+        sfSprite_move(player->sprite, (sfVector2f){5, 0});
+        player->facing = RIGHT;
         return;
     }
     player->is_moving = false;
@@ -19,13 +23,18 @@ static void player_animation(player_t *player) {
     sfSprite_setScale(player->sprite, (player->facing == RIGHT) ?
                                       (sfVector2f){5, 5} : (sfVector2f){-5, 5});
     if (player->is_moving == false) {
-        // Set the player's sprite to its idle pose
+        sfSprite_setTextureRect(player->sprite, IDLE_RECT);
+        return;
     }
     if (player->is_moving && sfSprite_getTextureRect(player->sprite).top != 48)
         sfSprite_setTextureRect(player->sprite, RUN_RECT);
     if (sfTime_asMilliseconds(sfClock_getElapsedTime(player->animation_clock)) > 75) {
-        // Set the texture recto to the next frame of animation
-        // Reset the animation clock
+        rect = sfSprite_getTextureRect(player->sprite);
+        rect.left += 48;
+        if (rect.left >= 384)
+            rect.left = 0;
+        sfSprite_setTextureRect(player->sprite, rect);
+        sfClock_restart(player->animation_clock);
     }
 }
 

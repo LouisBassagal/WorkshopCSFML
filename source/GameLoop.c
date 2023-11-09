@@ -3,10 +3,11 @@
 int game_loop(game_t *game)
 {
     while (sfRenderWindow_isOpen(game->game_window)) {
-        // Clear the Window
+        sfRenderWindow_clear(game->game_window, sfBlack);
         event_manager(game);
         player_manager(game->player);
-        // Draw sprite in the window and display it
+        sfRenderWindow_drawSprite(game->game_window, game->player->sprite, NULL);
+        sfRenderWindow_display(game->game_window);
     }
     destroy_resources(game);
     return 0;
